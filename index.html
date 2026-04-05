@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>School Management System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300;400;500;600;700&family=Noto+Sans+Devanagari:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --primary: #1a237e;
+  --primary-l: #3949ab;
+  --primary-d: #0d1642;
+  --accent: #f9a825;
+  --danger: #c62828;
+  --success: #2e7d32;
+  --warn: #e65100;
+  --bg: #eef0f5;
+  --card: #ffffff;
+  --text: #1a1a2e;
+  --muted: #6b7280;
+  --border: #e5e7eb;
+  --sw: 260px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Noto Sans','Noto Sans Devanagari',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+
+/* ===== LOGIN ===== */
+.login-wrap{min-height:100vh;background:linear-gradient(135deg,var(--primary-d),var(--primary) 55%,var(--primary-l));display:flex;align-items:center;justify-content:center;padding:20px}
+.login-card{background:#fff;border-radius:20px;padding:44px 40px;width:100%;max-width:420px;box-shadow:0 30px 70px rgba(0,0,0,.35)}
+.login-logo{text-align:center;margin-bottom:32px}
+.login-logo .ico{width:72px;height:72px;background:linear-gradient(135deg,var(--primary),var(--primary-l));border-radius:18px;display:inline-flex;align-items:center;justify-content:center;font-size:34px;margin-bottom:14px}
+.login-logo h1{font-size:21px;font-weight:800;color:var(--primary);line-height:1.3}
+.login-logo p{color:var(--muted);font-size:13px;margin-top:4px}
+
+/* ===== FORMS ===== */
+.fg{margin-bottom:18px}
+.fg label{display:block;font-size:13px;font-weight:600;margin-bottom:7px;color:var(--text)}
+.fg input,.fg select,.fg textarea{width:100%;padding:12px 15px;border:2px solid var(--border);border-radius:10px;font-size:14px;font-family:inherit;outline:none;transition:border-color .2s;background:#fff}
+.fg input:focus,.fg select:focus,.fg textarea:focus{border-color:var(--primary)}
+.fg textarea{min-height:70px;resize:vertical}
+
+/* ===== BUTTONS ===== */
+.btn{display:inline-flex;align-items:center;gap:7px;padding:11px 22px;border-radius:10px;font-size:14px;font-weight:600;font-family:inherit;cursor:pointer;border:none;transition:all .2s;text-decoration:none}
+.btn:hover{transform:translateY(-1px);box-shadow:0 4px 14px rgba(0,0,0,.18)}
+.btn-primary{background:var(--primary);color:#fff}
+.btn-primary:hover{background:var(--primary-l)}
+.btn-success{background:var(--success);color:#fff}
+.btn-danger{background:var(--danger);color:#fff}
+.btn-warn{background:var(--warn);color:#fff}
+.btn-outline{background:transparent;border:2px solid var(--border);color:var(--text)}
+.btn-accent{background:var(--accent);color:var(--primary-d);font-weight:700}
+.btn-full{width:100%;justify-content:center}
+.btn-sm{padding:7px 14px;font-size:12px}
+
+/* ===== LAYOUT ===== */
+.app{display:flex;min-height:100vh}
+
+/* ===== SIDEBAR ===== */
+.sidebar{width:var(--sw);background:var(--primary-d);color:#fff;position:fixed;top:0;left:0;height:100vh;overflow-y:auto;z-index:100;transition:transform .3s;display:flex;flex-direction:column}
+.sb-head{padding:22px 18px;border-bottom:1px solid rgba(255,255,255,.1)}
+.sb-brand{font-size:14px;font-weight:800;color:var(--accent);line-height:1.3}
+.sb-role{font-size:12px;color:rgba(255,255,255,.5);margin-top:4px}
+.sb-nav{padding:12px 0;flex:1}
+.nav-sec{padding:10px 18px 4px;font-size:10px;font-weight:700;color:rgba(255,255,255,.35);text-transform:uppercase;letter-spacing:1px}
+.nav-item{display:flex;align-items:center;gap:11px;padding:11px 18px;color:rgba(255,255,255,.7);cursor:pointer;transition:all .2s;font-size:13.5px;font-weight:500}
+.nav-item:hover,.nav-item.active{background:rgba(255,255,255,.1);color:#fff}
+.nav-item.active{border-right:3px solid var(--accent);color:var(--accent)}
+.nav-item .ni{font-size:16px;width:22px;text-align:center}
+.sb-foot{padding:14px 18px;border-top:1px solid rgba(255,255,255,.1)}
+
+/* ===== MAIN ===== */
+.main{margin-left:var(--sw);flex:1;min-height:100vh}
+
+/* ===== TOPBAR ===== */
+.topbar{background:#fff;padding:14px 24px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 1px 4px rgba(0,0,0,.08);position:sticky;top:0;z-index:50}
+.topbar h2{font-size:18px;font-weight:800;color:var(--primary)}
+.hamburger{display:none;background:none;border:none;font-size:22px;cursor:pointer;color:var(--primary)}
+.topbar-r{display:flex;align-items:center;gap:10px}
+
+/* ===== PAGE ===== */
+.page{padding:24px}
+
+/* ===== CARDS ===== */
+.card{background:#fff;border-radius:14px;padding:22px;box-shadow:0 2px 10px rgba(0,0,0,.07)}
+.card-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;flex-wrap:wrap;gap:10px}
+.card-title{font-size:16px;font-weight:800;color:var(--primary)}
+
+/* ===== STAT CARDS ===== */
+.stats{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:16px;margin-bottom:24px}
+.sc{background:#fff;border-radius:14px;padding:18px;box-shadow:0 2px 10px rgba(0,0,0,.07);border-left:4px solid transparent}
+.sc.blue{border-color:var(--primary)}.sc.gold{border-color:var(--accent)}.sc.green{border-color:var(--success)}.sc.red{border-color:var(--danger)}.sc.ora{border-color:var(--warn)}
+.sc-ico{font-size:26px;margin-bottom:6px}
+.sc-val{font-size:30px;font-weight:900;color:var(--primary)}
+.sc-lbl{font-size:12px;color:var(--muted);font-weight:500;margin-top:2px}
+
+/* ===== TABLE ===== */
+.tw{overflow-x:auto}
+table{width:100%;border-collapse:collapse}
+thead th{background:var(--bg);padding:11px 14px;text-align:left;font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;white-space:nowrap}
+tbody td{padding:13px 14px;border-bottom:1px solid var(--border);font-size:13.5px;vertical-align:middle}
+tbody tr:hover{background:#f6f8ff}
+
+/* ===== BADGES ===== */
+.badge{display:inline-block;padding:4px 10px;border-radius:20px;font-size:11px;font-weight:700}
+.b-blue{background:#e8eaf6;color:var(--primary)}
+.b-green{background:#e8f5e9;color:var(--success)}
+.b-red{background:#ffebee;color:var(--danger)}
+.b-ora{background:#fff3e0;color:var(--warn)}
+.b-gold{background:#fff8e1;color:#c17900}
+
+/* ===== AVATAR ===== */
+.av{width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,var(--primary-l),var(--primary));display:inline-flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:13px;flex-shrink:0}
+
+/* ===== SEARCH ===== */
+.search-bar{display:flex;gap:10px;margin-bottom:18px;flex-wrap:wrap}
+.search-bar input,.search-bar select{padding:10px 14px;border:2px solid var(--border);border-radius:10px;font-size:13.5px;font-family:inherit;outline:none;transition:border-color .2s}
+.search-bar input:focus,.search-bar select:focus{border-color:var(--primary)}
+.search-bar input{flex:1;min-width:180px}
+
+/* ===== MODAL ===== */
+.modal-wrap{position:fixed;inset:0;background:rgba(0,0,0,.55);display:flex;align-items:center;justify-content:center;z-index:200;padding:16px}
+.modal{background:#fff;border-radius:16px;padding:26px;width:100%;max-width:600px;max-height:92vh;overflow-y:auto;box-shadow:0 30px 70px rgba(0,0,0,.35)}
+.modal-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:22px}
+.modal-title{font-size:17px;font-weight:800;color:var(--primary)}
+.modal-close{background:none;border:none;font-size:20px;cursor:pointer;color:var(--muted);line-height:1}
+
+/* ===== FORM GRID ===== */
+.fgrid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.fgrid .fw{grid-column:1/-1}
+.form-actions{display:flex;gap:10px;margin-top:22px;justify-content:flex-end}
+
+/* ===== FEE SUMMARY ===== */
+.fee-sum{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px}
+.fbox{text-align:center;padding:14px 10px;border-radius:12px}
+.fbox.due{background:#fff3e0}.fbox.paid{background:#e8f5e9}.fbox.adv{background:#e8eaf6}.fbox.bal{background:#ffebee}
+.fbox .fa{font-size:20px;font-weight:900}
+.fbox.due .fa{color:var(--warn)}.fbox.paid .fa{color:var(--success)}.fbox.adv .fa{color:var(--primary)}.fbox.bal .fa{color:var(--danger)}
+.fbox .fl{font-size:11px;color:var(--muted);margin-top:2px}
+
+/* ===== ALERTS ===== */
+.alert{padding:11px 15px;border-radius:10px;margin-bottom:14px;font-size:13.5px}
+.a-danger{background:#ffebee;color:var(--danger);border-left:4px solid var(--danger)}
+.a-success{background:#e8f5e9;color:var(--success);border-left:4px solid var(--success)}
+.a-info{background:#e8eaf6;color:var(--primary);border-left:4px solid var(--primary)}
+
+/* ===== INFO ROWS ===== */
+.info-row{display:flex;flex-wrap:wrap;gap:18px;margin-top:14px}
+.ii .il{font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px}
+.ii .iv{font-size:14px;font-weight:600;margin-top:2px}
+.stu-av{width:88px;height:88px;border-radius:14px;background:linear-gradient(135deg,var(--primary-l),var(--primary));display:flex;align-items:center;justify-content:center;color:#fff;font-size:32px;font-weight:800;flex-shrink:0}
+
+/* ===== CLASS GRID ===== */
+.cls-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:12px}
+.cls-card{background:#fff;border-radius:12px;padding:14px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.07);cursor:pointer;transition:all .2s;border:2px solid transparent}
+.cls-card:hover{border-color:var(--primary);transform:translateY(-2px)}
+.cls-card .cn{font-weight:800;font-size:13px;color:var(--primary)}
+.cls-card .cc{font-size:26px;font-weight:900;margin:4px 0}
+.cls-card .cl{font-size:11px;color:var(--muted)}
+
+/* ===== EMPTY STATE ===== */
+.empty{text-align:center;padding:50px 20px;color:var(--muted)}
+.empty .ei{font-size:44px;margin-bottom:10px}
+.empty p{font-size:15px}
+
+/* ===== OVERLAY ===== */
+#sbOverlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:99}
+
+/* ===== RESPONSIVE ===== */
+@media(max-width:768px){
+  .sidebar{transform:translateX(-100%)}
+  .sidebar.open{transform:translateX(0)}
+  #sbOverlay.show{display:block}
+  .main{margin-left:0}
+  .hamburger{display:block}
+  .page{padding:14px}
+  .fgrid{grid-template-columns:1fr}
+  .fgrid .fw{grid-column:1}
+  .fee-sum{grid-template-columns:1fr 1fr}
+  .stats{grid-template-columns:1fr 1fr}
+  .modal{padding:20px}
+}
+@media(max-width:480px){
+  .login-card{padding:30px 22px}
+  .stats{grid-template-columns:1fr 1fr}
+  .fee-sum{grid-template-columns:1fr 1fr}
+}
+@media print{
+  .sidebar,.topbar,.no-print{display:none!important}
+  .main{margin-left:0!important}
+  .page{padding:0!important}
+}
+</style>
+</head>
+<body>
+
+<!-- ======== LOGIN ======== -->
+<div id="loginPage" class="login-wrap">
+  <div class="login-card">
+    <div class="login-logo">
+      <div class="ico">🏫</div>
+      <h1 id="loginName">School Management System</h1>
+      <p>Coaching / School Management Portal</p>
+    </div>
+    <div id="loginErr" class="alert a-danger" style="display:none"></div>
+    <div class="fg"><label>Username / यूजरनेम</label>
+      <input type="text" id="lUser" placeholder="Enter username" autocomplete="username">
+    </div>
+    <div class="fg"><label>Password / पासवर्ड</label>
+      <input type="password" id="lPass" placeholder="Enter password" autocomplete="current-password"
+        onkeydown="if(event.key==='Enter')doLogin()">
+    </div>
+    <button class="btn btn-primary btn-full" onclick="doLogin()">🔐 Login</button>
+    <div style="margin-top:14px;text-align:center;font-size:12px;color:var(--muted)">
+      Default login → <strong>director</strong> / <strong>admin123</strong>
+    </div>
+  </div>
+</div>
+
+<!-- ======== MAIN APP ======== -->
+<div id="app" style="display:none">
+  <div id="sbOverlay" onclick="closeSb()"></div>
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sb-head">
+      <div class="sb-brand" id="sbName">🏫 School</div>
+      <div class="sb-role" id="sbRole">Director</div>
+    </div>
+    <nav class="sb-nav">
+      <div class="nav-sec">मुख्य / Main</div>
+      <div class="nav-item active" onclick="go('dashboard')"><span class="ni">📊</span> Dashboard</div>
+
+      <div class="nav-sec">छात्र / Students</div>
+      <div class="nav-item" onclick="go('students')"><span class="ni">🎓</span> All Students</div>
+      <div class="nav-item" onclick="go('hostel')"><span class="ni">🏠</span> Hostel Students</div>
+
+      <div class="nav-sec" id="ns-teacher">शिक्षक / Teachers</div>
+      <div class="nav-item" id="n-teachers" onclick="go('teachers')"><span class="ni">👩‍🏫</span> All Teachers</div>
+
+      <div class="nav-sec">रिपोर्ट / Reports</div>
+      <div class="nav-item" onclick="go('reports')"><span class="ni">📋</span> Reports</div>
+
+      <div class="nav-sec" id="ns-settings">सेटिंग / Settings</div>
+      <div class="nav-item" id="n-settings" onclick="go('settings')"><span class="ni">⚙️</span> Settings</div>
+    </nav>
+    <div class="sb-foot">
+      <div class="nav-item" onclick="doLogout()" style="border-radius:10px">
+        <span class="ni">🚪</span> Logout
+      </div>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main">
+    <div class="topbar">
+      <div style="display:flex;align-items:center;gap:10px">
+        <button class="hamburger" onclick="toggleSb()">☰</button>
+        <h2 id="pgTitle">Dashboard</h2>
+      </div>
+      <div class="topbar-r">
+        <span style="font-size:12px;color:var(--muted)" id="tbUser"></span>
+      </div>
+    </div>
+    <div class="page" id="pageContent"></div>
+  </main>
+</div>
+
+<!-- ======== MODAL ======== -->
+<div id="modalWrap" class="modal-wrap" style="display:none" onclick="if(event.target===this)closeModal()">
+  <div class="modal">
+    <div class="modal-hd">
+      <div class="modal-title" id="modalTitle"></div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div id="modalBody"></div>
+  </div>
+</div>
+
+<script>
+// ============================================================
+// DATA LAYER
+// ============================================================
+const DB = {
+  get:(k,d={})=>{ try{ return JSON.parse(localStorage.getItem(k))??d }catch(e){ return d } },
+  set:(k,v)=>localStorage.setItem(k,JSON.stringify(v))
+};
+
+function initData(){
+  if(!DB.get('users',null)){
+    DB.set('users',[{id:'1',username:'Imtiyazkth',password:'Admine321#',role:'director',name:'Director'}]);
+  }
+  if(!DB.get('institute',null)) DB.set('institute','Imtyaz Teaching Center');
+  if(!DB.get('students',null)) DB.set('students',[]);
+  if(!DB.get('fees',null)) DB.set('fees',[]);
+  if(!DB.get('teachers',null)) DB.set('teachers',[]);
+  if(!DB.get('salaries',null)) DB.set('salaries',[]);
+}
+
+const gd=k=>DB.get(k,[]);
+const sd=(k,v)=>DB.set(k,v);
+const getInst=()=>DB.get('institute','School');
+const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,7);
+
+// ============================================================
+// AUTH
+// ============================================================
+let CU=null; // current user
+
+function doLogin(){
+  const u=document.getElementById('lUser').value.trim();
+  const p=document.getElementById('lPass').value;
+  const users=gd('users');
+  const found=users.find(x=>x.username===u&&x.password===p);
+  if(!found){
+    const e=document.getElementById('loginErr');
+    e.style.display='block';
+    e.textContent='❌ Username या Password गलत है! Try again.';
+    return;
+  }
+  CU=found;
+  document.getElementById('loginPage').style.display='none';
+  document.getElementById('app').style.display='flex';
+  document.getElementById('sbName').textContent='🏫 '+getInst();
+  document.getElementById('sbRole').textContent=CU.role==='director'?'👑 Director':'👩‍🏫 Teacher: '+CU.name;
+  document.getElementById('tbUser').textContent=CU.name;
+  document.getElementById('loginErr').style.display='none';
+  // hide director-only nav for teachers
+  if(CU.role==='teacher'){
+    document.getElementById('n-teachers').style.display='none';
+    document.getElementById('ns-teacher').style.display='none';
+    document.getElementById('n-settings').style.display='none';
+    document.getElementById('ns-settings').style.display='none';
+  } else {
+    document.getElementById('n-teachers').style.display='flex';
+    document.getElementById('ns-teacher').style.display='block';
+    document.getElementById('n-settings').style.display='flex';
+    document.getElementById('ns-settings').style.display='block';
+  }
+  go('dashboard');
+}
+
+function doLogout(){
+  CU=null;
+  document.getElementById('loginPage').style.display='flex';
+  document.getElementById('app').style.display='none';
+  document.getElementById('lUser').value='';
+  document.getElementById('lPass').value='';
+  document.getElementById('loginName').textContent=getInst();
+}
+
+// ============================================================
+// SIDEBAR
+// ============================================================
+function toggleSb(){
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('sbOverlay').classList.toggle('show');
+}
+function closeSb(){
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('sbOverlay').classList.remove('show');
+}
+
+// ============================================================
+// MODAL
+// ============================================================
+function openModal(title,body){
+  document.getElementById('modalTitle').textContent=title;
+  document.getElementById('modalBody').innerHTML=body;
+  document.getElementById('modalWrap').style.display='flex';
+}
+function closeModal(){ document.getElementById('modalWrap').style.display='none'; }
+
+// ============================================================
+// NAVIGATION
+// ============================================================
+const PAGE_TITLES={
+  dashboard:'Dashboard',students:'Students / छात्र',hostel:'Hostel Students / हॉस्टल',
+  teachers:'Teachers / शिक्षक',reports:'Reports / रिपोर्ट',settings:'Settings / सेटिंग',
+  studentDetail:'Student Detail',teacherDetail:'Teacher Detail'
+};
+
+function go(page,params={}){
+  closeSb();
+  document.querySelectorAll('.nav-item').forEach(el=>el.classList.remove('active'));
+  const m={dashboard:'dashboard',students:'students',hostel:'hostel',teachers:'teachers',reports:'reports',settings:'settings'};
+  const na=document.querySelector(`.nav-item[onclick*="${m[page]||page}"]`);
+  if(na) na.classList.add('active');
+  document.getElementById('pgTitle').textContent=PAGE_TITLES[page]||page;
+  const el=document.getElementById('pageContent');
+  if(page==='dashboard') el.innerHTML=pgDash();
+  else if(page==='students') el.innerHTML=pgStudents();
+  else if(page==='hostel') el.innerHTML=pgHostel();
+  else if(page==='teachers') el.innerHTML=pgTeachers();
+  else if(page==='reports') el.innerHTML=pgReports();
+  else if(page==='settings') el.innerHTML=pgSettings();
+  else if(page==='studentDetail') el.innerHTML=pgStudentDetail(params.id);
+  else if(page==='teacherDetail') el.innerHTML=pgTeacherDetail(params.id);
+  window.scrollTo(0,0);
+}
+
+// ============================================================
+// HELPERS
+// ============================================================
+const MN=['January','February','March','April','May','June','July','August','September','October','November','December'];
+const MY=(m,y)=>MN[m-1]+' '+y;
+const clsLbl=(c,cc)=>c==='Other'?(cc||'Other'):('Class '+c);
+const ini=n=>n.split(' ').map(w=>w[0]||'').join('').toUpperCase().slice(0,2);
+const avHTML=(n,s=38,f=13)=>`<div class="av" style="width:${s}px;height:${s}px;font-size:${f}px">${ini(n)}</div>`;
+const cur=n=>'₹'+Number(n||0).toLocaleString('en-IN');
+const isDir=()=>CU&&CU.role==='director';
+
+function monthOpts(selM,selY){
+  const now=new Date(); const nm=now.getMonth()+1; const ny=now.getFullYear();
+  const mo=MN.map((m,i)=>`<option value="${i+1}" ${(selM?selM==i+1:nm==i+1)?'selected':''}>${m}</option>`).join('');
+  return {mo, yo:`<input type="number" id="yr" value="${selY||ny}" min="2020" max="2035" style="width:100%">`};
+}
+
+// ==========================================================
